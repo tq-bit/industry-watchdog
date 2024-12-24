@@ -6,6 +6,7 @@ export default function App({ Component }: PageProps) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/logo.png" type="image/png" sizes="32x32"/>
         <title>Industry Watchdog</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
