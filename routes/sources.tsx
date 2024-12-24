@@ -15,7 +15,6 @@ export const handler: Handlers = {
   async POST(req: Request, ctx: FreshContext): Promise<Response> {
     const form = await req.formData();
     const value = form.get("value") as "create" | "delete";
-    console.log(value);
 
     if (value === "create") {
       const url = form.get("url") as string;

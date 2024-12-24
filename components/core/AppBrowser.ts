@@ -14,7 +14,7 @@ export default class Scraper {
       });
       console.log(`${url}: Connected to browser. Navigating to page`);
       page = await browser.newPage();
-      await page.goto(url);
+      await page.goto(url, {waitUntil: 'domcontentloaded', timeout: 0});
 
       // wait until selector is available
       console.log(`${url}: Waiting for selector ${selector}`);
