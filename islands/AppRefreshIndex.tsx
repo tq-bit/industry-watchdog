@@ -24,19 +24,9 @@ export default function AppRefreshIndexButton() {
     }
   };
   return (
-    <div class="w-96 mt-12 mx-auto">
-      {text.value && (
-        <div
-          class={`p-4 rounded mb-2 ${
-            status.value === "success" ? "bg-green-800" : "bg-red-800"
-          }`}
-        >
-          <p class="font-semibold">{text.value}</p>
-          <p>This page will refresh automatically in a moment</p>
-        </div>
-      )}
-      <div class=" bg-gray-800 p-4 rounded">
-        <h2 class="text-2xl font-semibold mb-2">Refresh indicies</h2>
+    <div class="w-full mx-auto">
+      <div>
+        <h2 class="text-xl font-semibold mb-2">Refresh indicies</h2>
         <p class="mb-2 text-gray-300">
           Clicking the below buttons performs a full refresh, including
           refreshing the source's content and recalculating index values
@@ -81,6 +71,17 @@ export default function AppRefreshIndexButton() {
           <small class="text-gray-300 text-center mx-auto block mt-1">
             Refreshing the indicies may take a while
           </small>
+        )}
+
+        {text.value && (
+          <div
+            class={`p-4 rounded mb-2 ${
+              status.value === "success" ? "bg-green-800" : "bg-red-800"
+            }`}
+          >
+            <p class="font-semibold">{text.value}</p>
+            <p>This page will refresh automatically in a moment</p>
+          </div>
         )}
       </div>
     </div>

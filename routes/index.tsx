@@ -3,6 +3,9 @@ import { FreshContext, Handlers } from "$fresh/server.ts";
 import SourcesDb, { TSource } from "../components/server/db/Sources.db.ts";
 import ScoresDb, { TScore } from "../components/server/db/Scores.db.ts";
 import IndiciesDb, { TIndex } from "../components/server/db/Indicies.db.ts";
+import AiResponsesDb, {
+  TAiResponse,
+} from "../components/server/db/AiResponses.db.ts";
 
 import AppRefreshIndex from "../islands/AppRefreshIndex.tsx";
 
@@ -12,6 +15,7 @@ export const handler: Handlers = {
       sources: SourcesDb.read(),
       scores: ScoresDb.read(),
       indicies: IndiciesDb.read(),
+      airesponses: AiResponsesDb.read(),
     });
   },
 };
@@ -22,6 +26,7 @@ function GetStarted(
       sources: TSource[];
       scores: TScore[];
       indicies: TIndex[];
+      airesponses: TAiResponse[];
     };
   },
 ) {
@@ -54,7 +59,7 @@ function GetStarted(
             </p>
             <a
               href="/sources"
-              class="text-teal-200 text-lg font-semibold underline"
+              class="text-teal-200  font-semibold underline"
             >
               Create your sources
             </a>
@@ -82,7 +87,7 @@ function GetStarted(
 
             <a
               href="/scores"
-              class="text-teal-200 text-lg font-semibold underline"
+              class="text-teal-200  font-semibold underline"
             >
               Create your scores
             </a>
@@ -102,12 +107,159 @@ function GetStarted(
   );
 }
 
+function IndiciesContent({ indicies }: { indicies: TIndex[] }) {
+  return (
+    <>
+      <h2 class="text-xl font-semibold">Latest index (algorithm generated)</h2>
+      <p class="text-gray-300  mb-4">
+        {new Date(indicies[0]?.createdAt).toLocaleDateString("de-DE")} at{" "}
+        {new Date(indicies[0]?.createdAt).toLocaleTimeString("de-DE")}
+      </p>
+      <div class="grid grid-cols-9 gap-4">
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                indicies[0]?.impactIndex <= 10 ? "text-green-500" : ""
+              } ${
+                indicies[0]?.impactIndex > 10 &&
+                  indicies[0]?.impactIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${indicies[0]?.impactIndex >= 80 ? "text-red-500" : ""}`}
+            >
+              {indicies[0]?.impactIndex}
+            </h3>
+            <p class="text-gray-300 ">Impact Index</p>
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                indicies[0]?.relevanceIndex <= 50 ? "text-red-500" : ""
+              } ${
+                indicies[0]?.relevanceIndex > 50 &&
+                  indicies[0]?.relevanceIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${indicies[0]?.relevanceIndex >= 80 ? "text-green-500" : ""}`}
+            >
+              {indicies[0]?.relevanceIndex}
+            </h3>
+            <p class="text-gray-300 ">Relevance Index</p>
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                indicies[0]?.industryIndex <= 40 ? "text-green-500" : ""
+              } ${
+                indicies[0]?.industryIndex > 40 &&
+                  indicies[0]?.industryIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${indicies[0]?.industryIndex >= 80 ? "text-red-500" : ""}`}
+            >
+              {indicies[0]?.industryIndex}
+            </h3>
+            <p class="text-gray-300 ">Industry Index</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AiResponseContent({ airesponses }: { airesponses: TAiResponse[] }) {
+  return (
+    <>
+      <h2 class="text-xl font-semibold ">Latest index (AI generated)</h2>
+      <p class="text-gray-300  mb-4">
+        {new Date(airesponses[0]?.createdAt).toLocaleDateString("de-DE")} at
+        {" "}
+        {new Date(airesponses[0]?.createdAt).toLocaleTimeString("de-DE")}
+      </p>
+      <div class="grid grid-cols-9 gap-4">
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                airesponses[0]?.impactIndex <= 10 ? "text-green-500" : ""
+              } ${
+                airesponses[0]?.impactIndex > 10 &&
+                  airesponses[0]?.impactIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${airesponses[0]?.impactIndex >= 80 ? "text-red-500" : ""}`}
+            >
+              {airesponses[0]?.impactIndex}
+            </h3>
+            <p class="text-gray-300 ">Impact Index</p>
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                airesponses[0]?.relevanceIndex <= 50 ? "text-red-500" : ""
+              } ${
+                airesponses[0]?.relevanceIndex > 50 &&
+                  airesponses[0]?.relevanceIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${
+                airesponses[0]?.relevanceIndex >= 80 ? "text-green-500" : ""
+              }`}
+            >
+              {airesponses[0]?.relevanceIndex}
+            </h3>
+            <p class="text-gray-300">Relevance Index</p>
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <div class="bg-gray-800 p-4 rounded text-center">
+            <h3
+              class={`text-4xl font-semibold ${
+                airesponses[0]?.industryIndex <= 40 ? "text-green-500" : ""
+              } ${
+                airesponses[0]?.industryIndex > 40 &&
+                  airesponses[0]?.industryIndex < 80
+                  ? "text-orange-500"
+                  : ""
+              } ${airesponses[0]?.industryIndex >= 80 ? "text-red-500" : ""}`}
+            >
+              {airesponses[0]?.industryIndex}
+            </h3>
+            <p class="text-gray-300 ">Industry Index</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function AiResponseText({ airesponses }: { airesponses: TAiResponse[] }) {
+  return (
+    <>
+      <h2 class="text-xl font-semibold mb-2">AI generated text</h2>
+      <p class="text-gray-300 ">{airesponses[0]?.explanation}</p>
+    </>
+  );
+}
+
 function MainContent(
   { data }: {
     data: {
       sources: TSource[];
       scores: TScore[];
       indicies: TIndex[];
+      airesponses: TAiResponse[];
     };
   },
 ) {
@@ -128,75 +280,25 @@ function MainContent(
           <p class="text-gray-300">Indicies available</p>
         </div>
       </div>
-      <h2 class="text-2xl font-semibold">Latest index data</h2>
-      <p class="text-gray-300 text-lg mb-4">
-        {new Date(data.indicies[0]?.createdAt).toLocaleDateString("de-DE")} at
-        {" "}
-        {new Date(data.indicies[0]?.createdAt).toLocaleTimeString("de-DE")}
-      </p>
-      <div class="grid grid-cols-11 gap-4">
-        <div class="col-span-3">
-          <div class="bg-gray-800 p-4 rounded text-center">
-            <h3
-              class={`text-4xl font-semibold ${
-                data.indicies[0]?.impactIndex <= 10 ? "text-green-500" : ""
-              } ${
-                data.indicies[0]?.impactIndex > 10 &&
-                  data.indicies[0]?.impactIndex < 80
-                  ? "text-orange-500"
-                  : ""
-              } ${data.indicies[0]?.impactIndex >= 80 ? "text-red-500" : ""}`}
-            >
-              {data.indicies[0]?.impactIndex}
-            </h3>
-            <p class="text-gray-300 text-xl">Impact Index</p>
-          </div>
-        </div>
-        <div class="col-span-1 text-7xl text-center">
-          ×
-        </div>
-        <div class="col-span-3">
-          <div class="bg-gray-800 p-4 rounded text-center">
-            <h3
-              class={`text-4xl font-semibold ${
-                data.indicies[0]?.relevanceIndex <= 50 ? "text-red-500" : ""
-              } ${
-                data.indicies[0]?.relevanceIndex > 50 &&
-                  data.indicies[0]?.relevanceIndex < 80
-                  ? "text-orange-500"
-                  : ""
-              } ${
-                data.indicies[0]?.relevanceIndex >= 80 ? "text-green-500" : ""
-              }`}
-            >
-              {data.indicies[0]?.relevanceIndex}
-            </h3>
-            <p class="text-gray-300 text-xl">Relevance Index</p>
-          </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-gray-800 p-4 rounded col-span-1">
+          <IndiciesContent indicies={data.indicies}></IndiciesContent>
         </div>
 
-        <div class="col-span-1 text-7xl text-center">
-          =
-        </div>
-        <div class="col-span-3">
-          <div class="bg-gray-800 p-4 rounded text-center">
-            <h3
-              class={`text-4xl font-semibold ${
-                data.indicies[0]?.industryIndex <= 40 ? "text-green-500" : ""
-              } ${
-                data.indicies[0]?.industryIndex > 40 &&
-                  data.indicies[0]?.industryIndex < 80
-                  ? "text-orange-500"
-                  : ""
-              } ${data.indicies[0]?.industryIndex >= 80 ? "text-red-500" : ""}`}
-            >
-              {data.indicies[0]?.industryIndex}
-            </h3>
-            <p class="text-gray-300 text-xl">Industry Index</p>
-          </div>
+        <div class="bg-gray-800 p-4 rounded col-span-1">
+          <AiResponseContent airesponses={data.airesponses}></AiResponseContent>
         </div>
       </div>
-      <AppRefreshIndex></AppRefreshIndex>
+
+      <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="bg-gray-800 p-4 rounded col-span-1">
+          <AiResponseText airesponses={data.airesponses}></AiResponseText>
+        </div>
+
+        <div class="bg-gray-800 p-4 rounded col-span-1">
+          <AppRefreshIndex></AppRefreshIndex>
+        </div>
+      </div>
     </>
   );
 }
@@ -208,6 +310,7 @@ export default function Home({
     sources: TSource[];
     scores: TScore[];
     indicies: TIndex[];
+    airesponses: TAiResponse[];
   };
 }) {
   return (

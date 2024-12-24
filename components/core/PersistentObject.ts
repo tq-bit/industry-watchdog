@@ -75,7 +75,6 @@ export class PersistentObject<T> {
     try {
       await Deno.lstat(this.path);
     } catch (_error) {
-      console.log(`Creating file ${this.path}`);
       await Deno.writeTextFile(this.path, JSON.stringify([]));
     }
   }

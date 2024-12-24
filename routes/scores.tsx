@@ -20,7 +20,6 @@ export const handler: Handlers = {
       const keywords = form.get("keywords") as string;
       const weight = form.get("weight") as string;
       const type = form.get("type") as "relevance" | "impact";
-      console.log(keywords.split(",").map((k) => k.trim()))
       await ScoresDb.create({
         id: crypto.randomUUID(),
         keywords: keywords.split(", ").map((k) => k.trim()),
