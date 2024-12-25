@@ -26,8 +26,12 @@ export const handler: Handlers = {
     // AI Stuff
     const openAi = new AppOpenAi(ScrapingResults.read(), Scores.read());
     const response = await openAi.createResponse();
+    const content = (response.choices[0].message.content as string).replace(
+      /```json/g,
+      "",
+    ).replace(/```/g, "");
     await AiResponsesDb.create({
-      ...JSON.parse(response.choices[0].message.content as string),
+      ...JSON.parse(content),
       createdAt: new Date(),
     });
 

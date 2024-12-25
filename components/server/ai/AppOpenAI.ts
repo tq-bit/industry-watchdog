@@ -24,7 +24,7 @@ export default class AppOpenAi {
   createResponse() {
     const prompt = this.generatePrompt();
     return this.client.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
       messages: [
         {
           role: "user",
@@ -58,6 +58,8 @@ The indexes are expressed as values ranging from 0 to 100:
 
 ## Relevance Index:
 Quantifies the relevance of a text corpus based on the presence and weight of relevance keywords.
+- If at least one exact relevance keyword is found, the Relevance Index is set to 100.
+- If the corpus includes words similar to relevance keywords, but not exact matches, the Impact Index is assigned a value based on the weight of the similar keywords.
 
 ## Impact Index:
 Evaluates the degree to which a text corpus affects the user's business, using the impact keywords.
@@ -83,8 +85,9 @@ For each corpus:
 ## Response
 
 Your reply must always have the JSON format as shown below.
-Validate that you are sending exclusively JSON data and leave out any kind of
-comments, text or other annotations
+Validate that you are sending exclusively JSON data and your response is parseable
+by JSON.parse. leave out any kind of comments, text, markdown, code indicators
+or any other kind of non-JSON data.
 
 {
   "relevanceIndex": number,
