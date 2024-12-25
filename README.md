@@ -6,9 +6,10 @@ This project is a prototype project for the [Bright Data challenge](https://dev.
 
 1. Clone the repo
 2. Install [Deno](https://docs.deno.com/runtime/)
-3. Rename `.env.example` to `.env` and set your `BROWSER_WS` variable
-4. Run `deno task start`
-5. Navigate to `http://localhost:8000`, add your sources and scores and run the indexing process
+3. Rename `.env.example` to `.env`
+4. set the `BROWSER_WS` and `OPENAI_API_KEY` variables
+5. Run `deno task start`
+6. Navigate to `http://localhost:8000`, add your sources and scores and run the indexing process
 
 ## How to use
 
